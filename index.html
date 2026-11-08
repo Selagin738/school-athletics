@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCHOOL ATHLETICS</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1220;
+  color: white;
+}
+
+header {
+  padding: 25px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #263449;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #60a5fa;
+}
+
+.hero {
+  text-align: center;
+  padding: 85px 20px 55px;
+}
+
+h1 {
+  font-size: clamp(34px, 6vw, 60px);
+  margin-bottom: 15px;
+}
+
+.hero p { color: #9caec5; }
+
+.search {
+  display: flex;
+  max-width: 550px;
+  margin: 35px auto;
+  background: white;
+  border-radius: 12px;
+  padding: 6px;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  padding: 14px;
+  font-size: 16px;
+}
+
+button {
+  border: 0;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  padding: 13px 20px;
+  cursor: pointer;
+}
+
+main {
+  max-width: 1050px;
+  margin: auto;
+  padding: 20px;
+}
+
+h2 { margin: 25px 0; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
+  gap: 18px;
+}
+
+.exercise {
+  background: #172337;
+  border: 1px solid #263b56;
+  border-radius: 15px;
+  padding: 25px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.exercise:hover {
+  transform: translateY(-4px);
+  border-color: #3b82f6;
+}
+
+.emoji { font-size: 38px; }
+
+.exercise p { color: #9caec5; }
+
+#result {
+  display: none;
+  margin-top: 30px;
+  padding: 25px;
+  background: #172337;
+  border-radius: 15px;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SCHOOL ATHLETICS</div>
+  <div>СПОРТ • РЕКОРДИ • РОЗВИТОК</div>
+</header>
+
+<section class="hero">
+  <h1>Знайди свій рух.</h1>
+  <p>Вивчай вправи. Дізнавайся рекорди. Розвивайся.</p>
+
+  <div class="search">
+    <input id="search" placeholder="Знайти вправу...">
+    <button onclick="findExercise()">Знайти</button>
+  </div>
+</section>
+
+<main>
+  <h2>Популярні вправи</h2>
+  <div class="grid" id="grid"></div>
+  <div id="result"></div>
+</main>
+
+<footer>
+  СПОРТ • ЛІЦЕЙ • РОЗВИТОК
+</footer>
+
+<script>
+const exercises = [
+  {
+    name:"Підтягування",
+    emoji:"💪",
+    fact:"Підтягування задіюють м'язи спини, рук та корпусу."
+  },
+  {
+    name:"Віджимання",
+    emoji:"🔥",
+    fact:"Віджимання розвивають м'язи грудей, плечей та рук."
+  },
+  {
+    name:"Скакалка",
+    emoji:"⚡",
+    fact:"Стрибки зі скакалкою тренують координацію та витривалість."
+  },
+  {
+    name:"Планка",
+    emoji:"🏆",
+    fact:"Планка допомагає розвивати витривалість м'язів корпусу."
+  },
+  {
+    name:"Присідання",
+    emoji:"🦵",
+    fact:"Присідання задіюють м'язи ніг та сідниць."
+  },
+  {
+    name:"Біг",
+    emoji:"🏃",
+    fact:"Регулярний біг розвиває загальну витривалість."
+  }
+];
+
+const grid = document.getElementById("grid");
+
+exercises.forEach(e => {
+  const card = document.createElement("div");
+  card.className = "exercise";
+  card.innerHTML = `
+    <div class="emoji">${e.emoji}</div>
+    <h3>${e.name}</h3>
+    <p>Переглянути інформацію →</p>
+  `;
+  card.onclick = () => showExercise(e);
+  grid.appendChild(card);
+});
+
+function showExercise(e) {
+  const result = document.getElementById("result");
+  result.style.display = "block";
+  result.innerHTML = `
+    <h2>${e.emoji} ${e.name}</h2>
+    <h3>💡 Цікавий факт</h3>
+    <p>${e.fact}</p>
+    <h3>🏆 Топ-3 ліцею</h3>
+    <p>Рекорди незабаром з'являться!</p>
+  `;
+  result.scrollIntoView({behavior:"smooth"});
+}
+
+function findExercise() {
+  const query = document.getElementById("search")
+    .value.trim().toLowerCase();
+
+  const found = exercises.find(
+    e => e.name.toLowerCase() === query
+  );
+
+  if (found) {
+    showExercise(found);
+  } else {
+    alert("Вправу не знайдено. Спробуй ввести повну назву.");
+  }
+}
+
+document.getElementById("search").addEventListener("keydown", e => {
+  if (e.key === "Enter") findExercise();
+});
+</script>
+
+</body>
+</html>
